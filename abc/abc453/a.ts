@@ -16,5 +16,9 @@ rl.on('close', () => {
 });
 
 const solution = () => {
+  const N = Number(lines[0]);
+  const S: string = lines[1];
 
+  // 先頭の o を取り除く
+  console.log(S.replace(/^o+/, ''));
 };
