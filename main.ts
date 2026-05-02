@@ -16,43 +16,25 @@ rl.on('close', () => {
 });
 
 const solution = () => {
-  const N = Number(lines[0]);
-  const can: Set<string>[][] = Array.from({ length: 11 }, () => Array.from({length: 11}, () => new Set<string>()));
+  const S = lines[0];
+  const divineNumber = 998244353;
 
-  const born: number[][] = Array.from({ length: N + 1 }, () => []);
-  for (let i = 1; i <= N; i++) {
-    const [A, B] = lines[i].split(' ').map(Number);
-    born[i] = [A, B];
-  }
+  let dpA = 0;
+  let dpB = 0;
+  let dpC = 0;
 
-  const M = Number(lines[N + 1]);
-  const S: string[] = [];
-
-  for (let i = N + 2; i < M + N + 2; i++) {
-    const str = lines[i];
-    S.push(str);
-
-    for (let j = 1; j <= N; j++) {
-      if (str.length === born[j][0]) {
-        can[born[j][0]][born[j][1]].add(str[born[j][1] - 1]);
-      }
+  for (const char of S) {
+    if (char === 'a') {
+      dpA += 1 + dpB + dpC;
+    }
+    if (char === 'b') {
+      dpB += 1 + dpA + dpC
+    }
+    if (char === 'c') {
+      dpC += 1 + dpA + dpB
     }
   }
 
-  S.forEach((spine) => {
-    if (spine.length === N) {
-      let result = 'Yes';
-      for (let i = 1; i <= N; i++) {
-        const spineChar = spine[i - 1];
-        const [a, b] = born[i];
-
-        if (!can[a][b].has(spineChar)) {
-          result = 'No';
-        }
-      }
-      console.log(result);
-    } else {
-      console.log('No');
-    }
-  })
+  const result = (dpA + dpB + dpC) % divineNumber;
+  console.log(result);
 };
