@@ -16,25 +16,29 @@ rl.on('close', () => {
 });
 
 const solution = () => {
-  const S = lines[0];
-  const divineNumber = 998244353;
+  const [N, KInput] = lines[0].split(' ').map(Number);
+  let K = KInput - 1; // 0-indexed
 
-  let dpA = 0;
-  let dpB = 0;
-  let dpC = 0;
+  const A: number[][] = [];
 
-  for (const char of S) {
-    if (char === 'a') {
-      dpA += 1 + dpB + dpC;
+  for (let i = 1; i <= N; i++) {
+    A.push(lines[i].split(' ').slice(1).map(Number));
+  };
+
+  const C = lines[N+1].split(' ').map(Number);
+
+  let total = 0;
+
+  for (let i = 0; i < N; i++) {
+    const blockLength = A[i].length * C[i];
+    console.log(total + blockLength);
+    if (K < total + blockLength) {
+      const offset = K - total;
+      const ansIndex = offset % A[i].length;
+      console.log(A[i][ansIndex]);
+      return;
     }
-    if (char === 'b') {
-      dpB += 1 + dpA + dpC
-    }
-    if (char === 'c') {
-      dpC += 1 + dpA + dpB
-    }
+
+    total += blockLength;
   }
-
-  const result = (dpA + dpB + dpC) % divineNumber;
-  console.log(result);
 };
