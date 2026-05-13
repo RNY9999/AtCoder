@@ -16,31 +16,26 @@ rl.on('close', () => {
 });
 
 const solution = () => {
-  const [N, L, R] = lines[0].split(' ').map(Number);
-  const S = lines[1];
+  const [N, Q] = lines[0].split(' ').map(Number);
+  const A: number[] = lines[1].split(' ').map(Number);
 
-  const position: number[][] = Array.from({length: 26}, () => []);
+  const sortedA = A
+    .map((value, index) => ({ value, index }))
+    .sort((a, b) => a.value - b.value);
 
-  for (let i = 0; i < N; i++) {
-    const index = S.charCodeAt(i) - 'a'.charCodeAt(0);
-    position[index].push(i);
-  }
+  const answers: number[] = [];
 
-  let answer = 0;
+  for (let i = 3; i < Q * 2 + 3; i += 2) {
+    const B = lines[i].split(' ').map((input) => Number(input) - 1);
+    const removed = new Set(B);
 
-  for(const pos of position) {
-    let left = 0;
-    let right = 0;
-
-    for (const i of pos) {
-      while (left < pos.length && pos[left] - i < L) {
-        left++;
+    for (const obj of sortedA) {
+      if (!removed.has(obj.index)) {
+        answers.push(obj.value);
+        break;
       }
-      while (right < pos.length && pos[right] - i <= R) {
-        right++;
-      }
-      answer += right - left;
     }
   }
-  console.log(answer);
+
+  console.log(answers.join('\n'));
 };
