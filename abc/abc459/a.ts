@@ -16,5 +16,16 @@ rl.on('close', () => {
 });
 
 const solution = () => {
+  const X = Number(lines[0]);
 
+  let result = '';
+  const str = 'HelloWorld';
+
+  for (let i = 0; i < str.length; i++) {
+    if (i !== X - 1) {
+      result += str[i];
+    };
+  };
+
+  console.log(result);
 };
