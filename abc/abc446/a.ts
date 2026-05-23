@@ -16,4 +16,7 @@ rl.on('close', () => {
 });
 
 const solution = () => {
+    const S = lines[0];
+
+    console.log('Of' + S.toLowerCase());
 };
